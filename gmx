@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#kicker=wget
+kicker=curl
+host=localhost
+port=19876
+
+path=`for a in "$@"; do echo $a; done | awk -F '' 'BEGIN{OFS=ORS="";for(i=0;i<256;i++)o[sprintf("%c",i)]=i}{for(i=1;i<=NF;i++)$i=($i ~ /[[:alnum:]]/)?$i:"%" sprintf("%02X",o[$i])}{print "/" $0}'`
+
+url=http://${host}:${port}${path}
+
+$kicker $url
+
+# end of file

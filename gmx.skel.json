@@ -1,0 +1,25 @@
+{
+  "global" : {
+    "src_dir" : "/home/takeyuki/gas/src"
+  },
+
+  "gmxd" : {
+    "port" : 19876,
+  },
+
+  "projects" : {
+    "matome": {
+      "id": "1SGt_Yf9s_Guiqhh-PT7rK26SkXnpeYy3i2oTymG-BOhXiNjWdFc9gxBn",
+      "files": {
+      }
+    },
+    "yusuranme": {
+      "id": "12Qi4ao1ld7ArAt8rSU-Yq-su6XUVm5uZ_scaSHjDHSj9iOqEjbvEIpPd",
+      "files": {
+      }
+    }
+  },
+
+  "groups" : {
+  }
+}
