@@ -4,7 +4,7 @@
   },
 
   "gmxd" : {
-    "port" : 19876,
+    "port" : 19876
   },
 
   "projects" : {
