@@ -9,6 +9,7 @@
     this.manager = manager;
     this.async = async;
     this.waterfall = async.waterfall;
+    this.parallel = async.parallel;
     this.name = name ? name : 'null';
     return this;
   };
