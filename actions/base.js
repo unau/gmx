@@ -12,11 +12,8 @@
     return this;
   };
   p.gen = function(name) {
-    console.warn('gen(%s) ... begin', name);
     var action = new Base().init(this.settings, this.manager, this.async, name);
-    var r = require('./' + name).action(action);
-    console.warn('gen(%s) ... end', name);
-    return r;
+    return require('./' + name).action(action);
   };
   p.exec = function(seq, cb) {
     var action = this;
@@ -28,8 +25,6 @@
     for (var i = 0, n = this.funcs.length; i < n; i++) {
       funcs.push(this.funcs[i]);
     }
-    console.log('manager:' + (action.manager ? 'o' : 'x'));
-    console.log('async:' + (action.async ? 'o' : 'x'));
     action.async.waterfall(funcs, function(err, result) { if (err) throw err; cb(seq, result); });
   };
   p.setOptions = function(opts){
