@@ -1,70 +1,68 @@
 'use strict';
 exports.action = function(action){
   action.argList = 'target'.split(',');
-  action.funcs = [
-    function(action, cb){
-      var project = action.settings.projects[action.target];
-      cb(null, action, project);
-    },
-    function(action, project, cb){
-      action.manager.getProject(project.id, function(res, gasProject, response){
-	cb(null, res, gasProject, response);
-      });
-    },
-    function(res1, gasProject, response, cb){
-      var s = {};
-      var u;
-      var files = gasProject.getFiles();
-      for (var k1 in files) {
-	var file = files[k1];
-	if (! u) {
-	  u = {};
-	  for (var k2 in file) {
-	    u[k2] = 1;
+  action.getProjectSettingsByTargetName = function(action, cb){
+    var projects = {};
+    var name = action.target;
+    var project = action.settings.projects[name];
+    if (project) {
+      projects[name] = project;
+    } else {
+      var group = action.settings.groups[name];
+      if (group) {
+	for (var i = 0, n = group.length; i < n; i++) {
+	  name = group[i];
+	  project = action.settings.projects[name];
+	  if (project) {
+	    projects[name] = project;
 	  }
 	}
-	s[k1] = { type: file.type, name: file.name };
       }
-      s = JSON.stringify({ss:s, uu:u});
-      console.log(s);
-      cb(null, s);
     }
-  ];
-  action.exec5 = function(seq, cb) {
-    var target = this.target;
-    var project = this.settings.projects[target];
-    var manager = this.manager;
-    var res = '';
-    async.waterfall([
-      function(cb){
-	manager.getProject(project.id, function(res, gasProject, response){
-	  cb(null, res, gasProject, response);
+    cb(null, action, projects);
+  };
+  action.funcs = [
+    action.getProjectSettingsByTargetName,
+    function(action, projects, cb){
+      action.waterfall(
+	(function(a){
+	  for (var k in projects) {
+	    var project = projects[k];
+	    a.push(function(gasProjects, cb){
+	      console.log("** START ** getProject");
+	      action.manager.getProject(project.id, function(res, gasProject, response){
+		gasProjects.push(gasProject);
+		cb(null, gasProjects);
+	      });
+	    });
+	  }
+	  return a;
+	})([ function(cb){ cb(null, [])} ]),
+	function(err, gasProjects) {
+	  cb(err, gasProjects);
 	});
-      },
-      function(res1, gasProject, response, cb){
-	var s = {};
-	var u;
+    },
+    function(gasProjects, cb){
+      var s = {};
+      for (var i = 0, n = gasProjects.length; i < n; i++) {
+	var gasProject = gasProjects[i];
+	var pname = gasProject.filename;
+	s[pname] = {
+	  name: pname,
+	  id: gasProject.fileId,
+	  files: {}
+	};
 	var files = gasProject.getFiles();
 	for (var k1 in files) {
 	  var file = files[k1];
-	  if (! u) {
-	    u = {};
-	    for (var k2 in file) {
-	      u[k2] = 1;
-	    }
-	  }
-	  s[k1] = { type: file.type, name: file.name };
+	  var name = file.name;
+	  s[pname].files[name] = { type: file.type, name: name };
 	}
-	s = JSON.stringify({ss:s, uu:u});
-	console.log(s);
-	cb(null, s);
       }
-    ], function(err, result){
-      if (err) throw err;
-      cb(seq, result);
-    });
-    return res;
-  };  
+      s = JSON.stringify(s, null, 2) + "\n";
+      cb(null, s);
+    }
+  ];
   return action;
 };
 // end of file

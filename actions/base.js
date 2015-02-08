@@ -8,6 +8,7 @@
     this.settings = settings;
     this.manager = manager;
     this.async = async;
+    this.waterfall = async.waterfall;
     this.name = name ? name : 'null';
     return this;
   };
@@ -25,7 +26,7 @@
     for (var i = 0, n = this.funcs.length; i < n; i++) {
       funcs.push(this.funcs[i]);
     }
-    action.async.waterfall(funcs, function(err, result) { if (err) throw err; cb(seq, result); });
+    action.waterfall(funcs, function(err, result) { if (err) throw err; cb(seq, result); });
   };
   p.setOptions = function(opts){
     this.opts = opts;
