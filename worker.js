@@ -51,7 +51,6 @@
       this.reloadSettings_();
       var Manager = require('gas-manager').Manager;
       var credential = require('credential.json');
-      console.warn("<credential>\n" + JSON.stringify(credential) + "\n<credential>\n");
       this.manager = new Manager(credential);
       return this;
     };
