@@ -29,6 +29,12 @@ node start_gmxd.js
 #### Show Status
     $ gmx status
 
+#### List projects
+    $ gmx list <target>
+
+#### Pull projects
+    $ gmx pull <target>
+
 
 ## Release History
 
