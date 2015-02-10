@@ -98,7 +98,7 @@
 	}
       });
       this.server.listen(this.port, function() {
-	console.log('server running (version:' + gmxd.version + ', pid:' + this.pid + ')');
+	console.log('server running (version:' + gmxd.version + ', pid:' + gmxd.pid + ')');
       });
       return this;
     };
