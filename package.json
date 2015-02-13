@@ -1,0 +1,9 @@
+{
+  "name": "gmx",
+  "verison": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "gas-manager": "~0.4.3"
+  }
+}
+

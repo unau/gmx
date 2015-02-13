@@ -1,5 +1,0 @@
-- action.async やめ
-- pacakge.json 書くかな
-- プログレスメッセージは gmxd 側の console.log でなくて gmx 側に送る？
-- action.execfuncs は waterfall で action だけ引き継ぐ用にするといいのでは
-
