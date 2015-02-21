@@ -4,7 +4,7 @@ my own tool for synchronizing Google Apps Script using gas-manager
 ## Install
 
 ```shell
-npm install https://github.com/unau/gmx.git
+npm install https://github.com/unau/gmx/tarball/master
 ```
 
 ## Getting Started
